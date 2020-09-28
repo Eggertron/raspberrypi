@@ -50,8 +50,8 @@ Raspberry OS already comes with `cifs-utils` but if you want to be sure you have
 ```
 sudo apt-get update && sudo apt-get install -y cifs-utils
 ```
-Now we can create an entry in `/etc/fstab` to automatically boot with the Samba share mounted
+Now we can create an entry in `/etc/fstab` to automatically boot with the Samba share mounted (might have to drop the `sec=ntlm` part)
 ```
-//servername/sharename  /media/windowsshare  cifs  username=msusername,password=mspassword,iocharset=utf8,sec=ntlm  0  0
+//servername/sharename  /media/windowsshare  cifs  username=msusername,password=mspassword,iocharset=utf8  0  0
 ```
 If you want more options for mounting with password protection you can [check out this doc on Mount password protected network folders](https://wiki.ubuntu.com/MountWindowsSharesPermanently#Mount_password_protected_network_folders)
