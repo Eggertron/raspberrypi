@@ -52,6 +52,7 @@ sudo apt-get update && sudo apt-get install -y cifs-utils
 ```
 Now we can create an entry in `/etc/fstab` to automatically boot with the Samba share mounted (might have to drop the `sec=ntlm` part)
 ```
-//servername/sharename  /media/windowsshare  cifs  username=msusername,password=mspassword,iocharset=utf8  0  0
+//servername/sharename  /media/windowsshare  cifs  username=msusername,password=mspassword,iocharset=utf8,guest,noperm,file_mode=0777,dir_mode=0777  0  0
 ```
+Make sure you add the `file_mode` and `dir_mode` so that the docker containers can work with the mounted files and folders.
 If you want more options for mounting with password protection you can [check out this doc on Mount password protected network folders](https://wiki.ubuntu.com/MountWindowsSharesPermanently#Mount_password_protected_network_folders)
