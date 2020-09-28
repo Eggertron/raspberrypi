@@ -1,5 +1,8 @@
-# raspberrypi
-Raspberry Pi Stuff
+# Raspberry Pi Stuff
+Most of my Raspberry Pi collection is clustered together in a docker swarm. But I have one separate Raspberry Pi that runs a few separate services.
+- Pi-Hole
+- Samba
+- VPN
 
 ## Pi-Hole
 Install Pi-hole using the [installation docs from pi-hole.net](https://docs.pi-hole.net/main/basic-install/). Or just run the following command.
@@ -42,3 +45,13 @@ sudo ufw allow 139
 sudo ufw allow 445
 sudo ufw reload
 ```
+### Automount the Samba Share
+Raspberry OS already comes with `cifs-utils` but if you want to be sure you have it you can run
+```
+sudo apt-get update && sudo apt-get install -y cifs-utils
+```
+Now we can create an entry in `/etc/fstab` to automatically boot with the Samba share mounted
+```
+//servername/sharename  /media/windowsshare  cifs  username=msusername,password=mspassword,iocharset=utf8,sec=ntlm  0  0
+```
+If you want more options for mounting with password protection you can [check out this doc on Mount password protected network folders](https://wiki.ubuntu.com/MountWindowsSharesPermanently#Mount_password_protected_network_folders)
