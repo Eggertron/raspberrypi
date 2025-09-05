@@ -90,11 +90,9 @@ BindsTo=dev-%i.device
 After=dev-%i.device
 
 [Service]
-Type=oneshot
-ExecStart=/usr/local/bin/usb_automount.sh add %i
-ExecStart=/usr/bin/startx /usr/bin/feh -ZFzD 5 /media/usb/%1/images/
-ExecStop=pkill feh
-ExecStop=/usr/local/bin/usb_automount.sh remove %i
+Type=simple
+ExecStart=/usr/local/bin/usb_automount.sh add %i; /usr/bin/startx /usr/bin/feh -ZFzD 5 /media/usb/%i/images/
+ExecStop=/usr/bin/pkill feh; /usr/local/bin/usb_automount.sh remove %i
 RemainAfterExit=yes
 
 [Install]
