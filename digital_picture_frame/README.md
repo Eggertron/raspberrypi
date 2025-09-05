@@ -112,6 +112,13 @@ sudo systemctl daemon-reload
 sudo udevadm trigger
 ```
 
+Disable screen sleep
+
+```sh
+sudo c 'echo "xset -dpms" >>  /etc/X11/xinit/xinitrc'
+sudo -c 'echo "xset s off" >> /etc/X11/xinit/xinitrc'
+```
+
 ## Usage
 
 Load your photos and videos in a folder called `images` in the root of the USB drive and plug it into the raspberry pi.
