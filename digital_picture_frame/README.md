@@ -74,10 +74,10 @@ Create the file `/etc/udev/rules.d/99-usb-automount.rules` with
 
 ```ini
 # Rule to automount USB storage devices
-ACTION=="add", KERNEL=="sd[a-z][0-9]", SUBSYSTEM=="block", ENV{ID_BUS}=="usb", RUN+="/sbin/blockdev --setro /dev/%k", RUN+="/usr/local/bin/usb_automount.sh add %k"
+ACTION=="add", KERNEL=="sd[a-z][0-9]", SUBSYSTEM=="block", ENV{ID_BUS}=="usb", TAG+="systemd", ENV{SYSTEMD_WANTS}+="usb-automount@%k.service"
 
 # Rule to unmount USB storage devices on removal
-ACTION=="remove", KERNEL=="sd[a-z][0-9]", SUBSYSTEM=="block", ENV{ID_BUS}=="usb", RUN+="/usr/local/bin/usb_automount.sh remove %k"
+ACTION=="remove", KERNEL=="sd[a-z][0-9]", SUBSYSTEM=="block", ENV{ID_BUS}=="usb", TAG+="systemd", ENV{SYSTEMD_WANTS}+="usb-automount@%k.service"
 ```
 
 Reload the Rule
@@ -86,6 +86,10 @@ Reload the Rule
 # Reload udev rules
 sudo udevadm control --reload-rules
 
+# Reload systemd
+sudo systemctl daemon-reload
+
 # Trigger the rules to apply to existing devices
 sudo udevadm trigger
+
 ```
