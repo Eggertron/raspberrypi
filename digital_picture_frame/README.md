@@ -70,6 +70,7 @@ make it executable
 chmod +x /usr/local/bin/usb_automount.sh
 ```
 
+Ths udev rule must execute the systemd unit file due to the RUN isolation of udevd.
 Create the file `/etc/udev/rules.d/99-usb-automount.rules` with
 
 ```ini
@@ -78,6 +79,24 @@ ACTION=="add", KERNEL=="sd[a-z][0-9]", SUBSYSTEM=="block", ENV{ID_BUS}=="usb", T
 
 # Rule to unmount USB storage devices on removal
 ACTION=="remove", KERNEL=="sd[a-z][0-9]", SUBSYSTEM=="block", ENV{ID_BUS}=="usb", TAG+="systemd", ENV{SYSTEMD_WANTS}+="usb-automount@%k.service"
+```
+
+Create the systemd unit file `/etc/systemd/system/usb-automount@.service` with
+
+```ini
+[Unit]
+Description=Automount USB Drive %I
+BindsTo=dev-%i.device
+After=dev-%i.device
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/usb_automount.sh add %i
+ExecStop=/usr/local/bin/usb_automount.sh remove %i
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
 ```
 
 Reload the Rule
@@ -91,5 +110,4 @@ sudo systemctl daemon-reload
 
 # Trigger the rules to apply to existing devices
 sudo udevadm trigger
-
 ```
