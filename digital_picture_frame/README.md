@@ -92,6 +92,8 @@ After=dev-%i.device
 [Service]
 Type=oneshot
 ExecStart=/usr/local/bin/usb_automount.sh add %i
+ExecStart=/usr/bin/startx /usr/bin/feh -ZFzD 5 /media/usb/%1/images/
+ExecStop=pkill feh
 ExecStop=/usr/local/bin/usb_automount.sh remove %i
 RemainAfterExit=yes
 
@@ -111,3 +113,7 @@ sudo systemctl daemon-reload
 # Trigger the rules to apply to existing devices
 sudo udevadm trigger
 ```
+
+## Usage
+
+Load your photos and videos in a folder called `images` in the root of the USB drive and plug it into the raspberry pi.
