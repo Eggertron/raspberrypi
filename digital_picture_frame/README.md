@@ -121,4 +121,10 @@ sudo -c 'echo "xset s off" >> /etc/X11/xinit/xinitrc'
 
 ## Usage
 
-Load your photos and videos in a folder called `images` in the root of the USB drive and plug it into the raspberry pi.
+Load your photos and videos in a folder called `images` in the root of the USB drive and plug it into the raspberry pi. Run the command
+
+```sh
+sudo startx `which feh` -ZFD 5 /home/edgar/
+```
+
+It is recommended to create a system unit file for the above command.
